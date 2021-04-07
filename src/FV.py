@@ -2,7 +2,7 @@ from decimal import Decimal
 import numpy_financial as npf
 from statistics import mean
 from array import *
-import FV
+#import FV
 import numpy as np
 import decimal
 
@@ -16,8 +16,8 @@ listOfN = array('i',[])
 
 
 
-n = int(input("Number of entries: "))
-for i in range(n):
+num = int(input("Number of entries: "))
+for i in range(num):
     L = int(input("Enter the periods for each entry: "))
     listOfN.append(L)
 
@@ -26,7 +26,7 @@ def future_value(rate, nper, pmt, pv):
     global y
     #y = int()
     
-    decimal.getcontext().prec=100000000000
+    decimal.getcontext().prec=10000
     y = Decimal(npf.fv(rate, nper, pmt, pv))
     y = (round(y, 2))
     
@@ -45,13 +45,14 @@ import pandas as pd
 pd.set_option("max_colwidth", None)
 print(pd.DataFrame(x))
 
-if n>1:
-    print('mean: ', round(mean(x), 2))
+if num>1:
+    #print('mean: ', round(mean(x), 2))
+    print('mean: ', (mean(x)))
 
 #callback same file to repeat another calc
 print(" ")
 print(" ")
-FV
+#FV
 
 input("Press enter to start another calculation")
 

@@ -1,2 +1,4 @@
-
+MonteCarloSim_Venv/
+src/__pycache__/*.pyc
 src/~$StockMarketSimulation.xlsx
+*.pyc
