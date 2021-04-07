@@ -10,4 +10,4 @@ def randinputs(n_limit, lower, upper):
         n = n + 1
 
 
-# input()
+input("Press enter")
