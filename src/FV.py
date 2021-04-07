@@ -4,18 +4,15 @@ from statistics import mean
 from array import *
 import FV
 import numpy as np
+import decimal
 
 x= []
 
-# rate = int(input("Enter Rate: "))
-# pmt= int(input("Enter PMT: "))
-# pv = int(input("Enter PV: "))
-# listOfN = array('i',[])
-
-rate = 5
-pmt= 1000
-pv = 10000
+rate = int(input("Enter Rate: "))
+pmt= int(input("Enter PMT: "))
+pv = int(input("Enter PV: "))
 listOfN = array('i',[])
+
 
 
 
@@ -28,6 +25,8 @@ for i in range(n):
 def future_value(rate, nper, pmt, pv):  
     global y
     #y = int()
+    
+    decimal.getcontext().prec=100000000000
     y = Decimal(npf.fv(rate, nper, pmt, pv))
     y = (round(y, 2))
     
