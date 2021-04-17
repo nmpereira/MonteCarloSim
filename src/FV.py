@@ -3,7 +3,6 @@ from decimal import Decimal
 import numpy_financial as npf
 from statistics import mean
 from array import *
-#import FV
 import numpy as np
 import decimal
 
@@ -67,6 +66,6 @@ if num > 1:
 # callback same file to repeat another calc
 print(" ")
 print(" ")
-# FV
+
 
 input("Press enter to start another calculation")
