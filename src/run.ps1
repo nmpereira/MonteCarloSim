@@ -4,4 +4,4 @@ pip install -r requirements.txt | Out-Null
 
 python FV.py
 
-pause
+start-sleep 60

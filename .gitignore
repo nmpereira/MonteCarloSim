@@ -4,3 +4,5 @@ src/~$StockMarketSimulation.xlsx
 src/build/
 src/dist/
 *.spec
+src/MonteCarloSim_Venv/Lib/
+src/MonteCarloSim_Venv/Scripts/__pycache__/
