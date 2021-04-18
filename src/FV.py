@@ -13,15 +13,16 @@ x = []
 listOfN = array('f', [])
 
 rand_list =array('i', [])
-rate_array=array('i', [])
+#rate_array=array('i', [])
 
 # num_years_array = array('i', [])
-# pmt_array= array('i', [])
+#pmt_array=  []
 # pv_array= array('i', [])
 
 num_years_array = np.array([])
 pmt_array= np.array([])
 pv_array= np.array([])
+rate_array=np.array([])
 
 #print("rate: ",rate,"%")
 
@@ -112,7 +113,8 @@ def future_value(rate, nper, pmt, pv):
     global y
     decimal.getcontext().prec = 10000
     #y = Decimal(npf.fv(rate, nper, pmt, pv))
-    y = (npf.fv(rate, nper, pmt, pv))
+    y=  (npf.fv(rate, nper, pmt, pv))
+    
     #y = (round( Decimal(y), 2))
 
 # nper=1
@@ -130,7 +132,7 @@ def simulate(num_years):
         #calculating num_years_array
         #print("num_years",n)
         n+=1
-        #num_years_array= np.append(n)
+        #num_years_array.append(n)
         #calculating rate
         
         rate = 5
@@ -139,30 +141,46 @@ def simulate(num_years):
 
 
         #calcuting pmt
-        pmt= 1000
-        #pmt_array= np.append(pmt+100)
+        #pmt_array =[1,2,3]
+        pmt = (1000)
+        #for n in range(num_years):
+        pmt_add = np.arange(pmt,pmt+pmt,pmt/2)
+        print("pmt_add", pmt_add)
+        pmt_array =np.append(pmt, pmt_add+1)
+            # pmt= array.array('d',[1000])
+            # pmt +=1000
+            # pmt_array.append(pmt)
+            # print(pmt_array)
 
         #calculating pv
         pv= [0]
-        #pv_array = np= np.append(pmt)
+        pv_array = [10,20,30]
 
 
         #Calculating future value
-        for i in range(num_years):
-            future_value(rate_array, rate_array, rate_array, rate_array)
-            x= np.append(y)
+        # for i in range(num_years):
+        future_value(rate_array, n, pmt_array, pv_array)
+        x.append(y)
 
 
 
 
-simulate(num_years) 
+print("simulate(num_years)",simulate(num_years))
+
+
+
+
+
 #print("num_years_array",num_years_array)
 
 
-print((rate_array))
-print((num_years_array))
-print((pmt_array))
-print((pv_array))
+print(("rate_array",rate_array))
+print(("num_years_array",num_years_array))
+print(("pmt_array",pmt_array))
+print(("pv_array",pv_array))
+
+
+print(("num_years",num_years))
 
 
 
@@ -173,15 +191,15 @@ print((pv_array))
 
 
 
-#print(np.matrix(x))
+#print("np.matrix(x)",np.matrix(x))
 
 pd.set_option("max_colwidth", None)
-print(pd.DataFrame(x))
+print("pd.DataFrame(x)", pd.DataFrame(x))
 
 
-#if num_years > 1:
-    ##print('mean: ', round(mean(x), 2))
-    #print('mean: ', round((mean(x)), 2))
+# if num_years > 1:
+#     ##print('mean: ', round(mean(x), 2))
+#     print('mean: ', round((mean(x)), 2))
 
 # callback same file to repeat another calc
 print(" ")
