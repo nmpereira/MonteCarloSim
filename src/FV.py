@@ -5,25 +5,31 @@ from statistics import mean
 from array import *
 import numpy as np
 import decimal
+
+from pandas.core.indexes.base import Index
 from  Variables import *
 from tabulate import tabulate
 import random
 
 x = []
+a = []
 listOfN = array('f', [])
 
 rand_list =array('i', [])
 #rate_array=array('i', [])
 
-# num_years_array = array('i', [])
-#pmt_array=  []
-# pv_array= array('i', [])
+num_years_array = array('i', [])
+pmt_array=  []
+pv_array= array('i', [])
+rate_array=  []
+fv_array = []
 
-num_years_array = np.array([])
-pmt_array= np.array([])
-pv_array= np.array([])
-rate_array=np.array([])
 
+# num_years_array = np.array([])
+# pmt_array= np.array([])
+# pv_array= np.array([])
+# rate_array=np.array([])
+index_array = []
 #print("rate: ",rate,"%")
 
 variables_imported = [
@@ -125,6 +131,69 @@ def future_value(rate, nper, pmt, pv):
 #     x.append(y)
 
 
+def indexer(num_years):
+    n = 0
+    global index_array
+    while n < num_years:
+        #for n in range(num_years):
+            n += 1
+            index_array.append(n)
+            # print("index_array",index_array)
+            # print("n",n)
+    a.append(index_array)
+        
+
+
+def rate(num_years):
+    n=0
+    global rate_array
+    global rate
+    while n < num_years:
+            n += 1
+            rate = randinputs(1,return_lower, return_upper)
+            rate_array.append(rate)
+            # print("rate",rate)
+            # print("rate_array",rate_array)   
+    a.append(rate_array)
+
+def payment(num_years):
+    n=0
+    global pmt_array
+    global amount
+    while n < num_years:
+            n += 1
+            amount = randinputs(1,amount_lower, amount_upper)
+            pmt_array.append(amount)
+            # print("rate",amount)
+            # print("rate_array",pmt_array)   
+    a.append(pmt_array)
+    
+def presentvalue(num_years):
+    n=1
+    global pv_array
+    global pv
+    pv_array.append(pv)
+    while n < num_years:
+            n += 1
+            pv_array.append(0)
+    a.append(pv_array)
+
+def futurevalue(num_years):
+    n=0
+    global fv_array
+    for i in index_array:
+        fv = npf.fv(rate, 1, amount, pv)
+        fv_array.append(fv)
+            # print("rate",amount)
+            # print("rate_array",pmt_array)   
+    a.append(fv_array)
+
+
+indexer(num_years)
+rate(num_years)
+payment(num_years)
+presentvalue(num_years)
+futurevalue(num_years)
 
 def simulate(num_years):
     n = 0
@@ -145,7 +214,7 @@ def simulate(num_years):
         pmt = (1000)
         #for n in range(num_years):
         pmt_add = np.arange(pmt,pmt+pmt,pmt/2)
-        print("pmt_add", pmt_add)
+        #print("pmt_add", pmt_add)
         pmt_array =np.append(pmt, pmt_add+1)
             # pmt= array.array('d',[1000])
             # pmt +=1000
@@ -165,7 +234,7 @@ def simulate(num_years):
 
 
 
-print("simulate(num_years)",simulate(num_years))
+#print("simulate(num_years)",simulate(num_years))
 
 
 
@@ -174,13 +243,13 @@ print("simulate(num_years)",simulate(num_years))
 #print("num_years_array",num_years_array)
 
 
-print(("rate_array",rate_array))
-print(("num_years_array",num_years_array))
-print(("pmt_array",pmt_array))
-print(("pv_array",pv_array))
+# print(("rate_array",rate_array))
+# print(("num_years_array",num_years_array))
+# print(("pmt_array",pmt_array))
+# print(("pv_array",pv_array))
 
 
-print(("num_years",num_years))
+# print(("num_years",num_years))
 
 
 
@@ -194,7 +263,13 @@ print(("num_years",num_years))
 #print("np.matrix(x)",np.matrix(x))
 
 pd.set_option("max_colwidth", None)
-print("pd.DataFrame(x)", pd.DataFrame(x))
+a_transposed= pd.DataFrame(a).transpose()
+a_transposed.columns = ["index","rate","PMT","PV","fv"]
+print("pd.DataFrame(a_transposed) \n", a_transposed)
+
+a_transposed_row_PV = a_transposed["PV"] + 1
+
+print(a_transposed_row_PV.loc[0]+50)
 
 
 # if num_years > 1:
