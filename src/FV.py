@@ -23,13 +23,14 @@ pmt_array = []
 pv_array = array('i', [])
 rate_array = []
 fv_array = []
+index_array =[]
 decimal.getcontext().prec = 10000
 
 # num_years_array = np.array([])
 # pmt_array= np.array([])
 # pv_array= np.array([])
 # rate_array=np.array([])
-index_array = []
+
 # print("rate: ",rate,"%")
 
 variables_imported = [
@@ -55,7 +56,7 @@ def randinputs(n_limit, lower, upper):
     # rand_return =[]
     while n < n_limit:
         # for i in n_limit:
-        rand_return = random.randint(lower, upper)
+        rand_return = round(random.uniform(lower, upper), 2)
         n = n + 1
         return rand_return
 
@@ -139,7 +140,7 @@ def rate(num_years):
     global rate
     while n < num_years:
             n += 1
-            rate = randinputs(1, return_lower, return_upper) / 100
+            rate = randinputs(1, return_lower, return_upper)
             rate_array.append(rate)
             # print("rate",rate)
             # print("rate_array",rate_array)   
@@ -192,7 +193,7 @@ def futurevalue(num_years):
 
     global fv_array
     global fv
-    fv_array.append(abs(npf.fv(rate_index, 1, pmt_index, pv_index)))
+    fv_array.append(abs(npf.fv(rate_index/100, 1, pmt_index, pv_index)))
     for n in range(num_years - 1):
         n += 1
         rate_index = a_transposed['rate'].loc[n]
@@ -200,7 +201,7 @@ def futurevalue(num_years):
         pv_index = fv_array[n - 1]
         index_index = a_transposed['index'].loc[n]
         
-        fv = round(abs(npf.fv(rate_index, 1, pmt_index, pv_index)), 2)
+        fv = round(abs(npf.fv(rate_index/100, 1, pmt_index, pv_index)), 2)
         fv_array.append(fv)
         
             # print("rate",amount)
@@ -213,7 +214,7 @@ def futurevalue(num_years):
     print("PV1", fv_array[n - 1])
     print("PV2", a_transposed['pmt'].loc[n])
 
-    print("fv", round(npf.fv(a_transposed['rate'].loc[n], 1, a_transposed['pmt'].loc[n], fv_array[n - 1])), 2)
+    print("fv", round(npf.fv(a_transposed['rate'].loc[n]/100, 1, a_transposed['pmt'].loc[n], fv_array[n - 1])), 2)
 
 
 futurevalue(num_years)

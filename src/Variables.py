@@ -3,7 +3,7 @@
 pv = 50000
 #num_years = 10
 #L=40
-return_lower =0
+return_lower =1
 return_upper=5
 amount_lower =0
 amount_upper=2000
