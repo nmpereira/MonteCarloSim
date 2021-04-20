@@ -5,8 +5,7 @@ from statistics import mean
 from array import *
 import numpy as np
 import decimal
-
-from pandas.core.indexes.base import Index
+import plotly.graph_objects as go
 from  Variables import *
 from tabulate import tabulate
 import random
@@ -155,7 +154,7 @@ def payment(num_years):
     global amount
     while n < num_years:
             n += 1
-            amount = randinputs(1, amount_lower, amount_upper) * 12
+            amount = round(randinputs(1, amount_lower, amount_upper) * 12,2)
             pmt_array.append(amount)
             # print("rate",amount)
             # print("rate_array",pmt_array)   
@@ -195,7 +194,7 @@ def futurevalue(num_years):
 
     global fv_array
     global fv
-    fv_array.append(abs(npf.fv(rate_index/100, 1, pmt_index, pv_index)))
+    fv_array.append(round(abs(npf.fv(rate_index/100, 1, pmt_index, pv_index)),2))
     for n in range(num_years - 1):
         n += 1
         rate_index = a_transposed['rate'].loc[n]
@@ -282,6 +281,7 @@ a_transposed_row_PV = a_transposed["pv"] + 1
 
 print(a_transposed_row_PV.loc[0] + 50)
 
+
 if num_years > 1:
     print('Amount contributed: ', round((sum(pmt_array)+sum(pv_array)), 2))
     print('Mean of fv: ', round((mean(fv_array)), 2))
@@ -289,6 +289,18 @@ if num_years > 1:
     print('Gain: ', round((fv_array[num_years - 1]-(sum(pmt_array)+sum(pv_array))), 2))
     
 simulate(simulation_trials, num_years)
+
+
+fig = go.Figure(data=[go.Table(header=dict(values=["index", "rate", "pmt", "pv", "fv"]),
+                 cells=dict(values=[a_transposed['index'],a_transposed['rate'],a_transposed['pmt'],a_transposed['pv'],a_transposed['fv']]))
+                     ])
+
+fig.show()
+# if num_years > 1:
+#     ##print('mean: ', round(mean(x), 2))
+#     print('mean: ', round((mean(x)), 2))
+
+
 # callback same file to repeat another calc
 print(b)
 print(" ")
