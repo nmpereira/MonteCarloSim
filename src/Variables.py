@@ -3,10 +3,10 @@
 pv = 50000
 #num_years = 10
 #L=40
-return_lower =1
-return_upper=5
-amount_lower =2000
-amount_upper=2000
+return_lower =0
+return_upper=10
+amount_lower =12000
+amount_upper=12000
 current_age= 25
-Age_end=27
-simulation_trials= 10
+Age_end=65
+simulation_trials= 0
