@@ -5,7 +5,12 @@ import pandas as pd
 import numpy as np
 import numpy_financial as npf
 import statistics
+from numba import jit
+import time
+from datetime import timedelta
 
+
+start_time = time.monotonic()
 
 variables_imported = [
  #["pmt: ",pmt],
@@ -38,7 +43,7 @@ def simulate(trials):
         FutreValue=[]
         
         
-
+       
         def randomizer(lower, upper):
             return round(random.uniform(lower, upper), 2)
 
@@ -80,7 +85,7 @@ def simulate(trials):
                 PaymentAmount.append(pmt(amount_lower, amount_upper))
             data.append(PaymentAmount)
             return PaymentAmount
-
+        
         def Future_value(index):
             def futureval(AnnualRate,index,PaymentAmount, PresentValue):
                 return round(npf.fv(AnnualRate, index, PaymentAmount, PresentValue),2)
@@ -146,7 +151,7 @@ def simulate(trials):
         if trial==0:
             print("pd.DataFrame(dataframe) \n", dataframe)
 
-simulate(6000)
+simulate(1000)
 pd.set_option('display.float_format', '$ {:,}'.format)
 Grand_dataframe = pd.DataFrame(Grand_Future_Value)
 Grand_dataframe.columns = ["Trials"]
@@ -156,4 +161,6 @@ print( "Average: ",'$ {:,}'.format(round(Grand_Future_Value_mean,2)))
 
 print(Grand_dataframe.describe())
 
-input("Press Enter to continue.")
+#input("Press Enter to continue.")
+end_time = time.monotonic()
+print(timedelta(seconds=end_time - start_time))
