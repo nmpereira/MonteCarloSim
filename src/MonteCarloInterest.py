@@ -34,11 +34,11 @@ Grand_Future_Value_mean=[]
 
 def simulate(trials):
     for trial in range(trials):
-        index=[]
-        nper=[]
+        index=np.array([])
+        nper=np.array([])
         data=[]
         PresentValue=[]
-        AnnualRate=[]
+        AnnualRate=np.array([])
         PaymentAmount=[]
         FutreValue=[]
         
@@ -51,8 +51,9 @@ def simulate(trials):
         #    pass
 
         def indexer(num_years):
-            for years in range(num_years):
-                index.append(years)
+            index=np.arange(num_years)
+            #for years in range(num_years):
+            #    index.append(years)
             data.append(index)
             return index
                 
@@ -61,8 +62,9 @@ def simulate(trials):
             return randomizer(return_lower, return_upper)
 
         def Nperiod(index):
-            for i in range(index):
-                nper.append(i+1)
+            nper=np.arange(index)+1
+            #for i in range(index):
+            #    nper.append(i+1)
             data.append(nper)
             return nper
 
@@ -72,13 +74,16 @@ def simulate(trials):
         def present_value(index):
             for i in index:
                 PresentValue.append(0)
-            PresentValue[0]= pv
+            #PresentValue[1]= pv
             data.append(PresentValue)
             return PresentValue
         def Annual_rate(index):
-            for i in index:
-                AnnualRate.append(rate(return_lower, return_upper))
+            AnnualRate =np.full((1,50),random.random())
+            #AnnualRate = np.array([random.random() for _ in range(index)])
+            # for i in index:
+            #     AnnualRate.append(rate(return_lower, return_upper))
             data.append(AnnualRate)
+            print(AnnualRate)
             return AnnualRate
         def Payment_amount(index):
             for i in index:
@@ -151,7 +156,7 @@ def simulate(trials):
         if trial==0:
             print("pd.DataFrame(dataframe) \n", dataframe)
 
-simulate(1000)
+simulate(2000)
 pd.set_option('display.float_format', '$ {:,}'.format)
 Grand_dataframe = pd.DataFrame(Grand_Future_Value)
 Grand_dataframe.columns = ["Trials"]
