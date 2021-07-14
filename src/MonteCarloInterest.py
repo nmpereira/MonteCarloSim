@@ -34,12 +34,13 @@ Grand_Future_Value_mean=[]
 
 def simulate(trials):
     for trial in range(trials):
-        index=np.array([])
+        #index=np.array([])
+        index=[]
         nper=np.array([])
         data=[]
-        PresentValue=[]
+        PresentValue=np.array([])
         AnnualRate=np.array([])
-        PaymentAmount=[]
+        PaymentAmount=np.array([])
         FutreValue=[]
         
         
@@ -51,9 +52,9 @@ def simulate(trials):
         #    pass
 
         def indexer(num_years):
-            index=np.arange(num_years)
-            #for years in range(num_years):
-            #    index.append(years)
+            #index=np.arange(num_years)
+            for years in range(num_years):
+                index.append(years)
             data.append(index)
             return index
                 
@@ -61,8 +62,8 @@ def simulate(trials):
         def rate(return_lower, return_upper):
             return randomizer(return_lower, return_upper)
 
-        def Nperiod(index):
-            nper=np.arange(index)+1
+        def Nperiod(num_years):
+            nper=np.arange(num_years)+1
             #for i in range(index):
             #    nper.append(i+1)
             data.append(nper)
@@ -71,37 +72,53 @@ def simulate(trials):
         def pmt(amount_lower, amount_upper):
             return randomizer(amount_lower, amount_upper)
 
-        def present_value(index):
-            for i in index:
-                PresentValue.append(0)
+        def present_value(num_years):
+            PresentValue=np.zeros((num_years,), dtype=int)
+            PresentValue[0]=pv
+            
+            # for i in index:
+            #     PresentValue.append(0)
             #PresentValue[1]= pv
             data.append(PresentValue)
             return PresentValue
-        def Annual_rate(index):
-            AnnualRate =np.full((1,50),random.random())
-            #AnnualRate = np.array([random.random() for _ in range(index)])
+        def Annual_rate(num_years):
+            
+            x=num_years
+            AnnualRate =np.round(np.random.randint(return_lower,return_upper-1, size=x)+abs(np.random.randn(1, x)),2)
+            
+            
+            
             # for i in index:
             #     AnnualRate.append(rate(return_lower, return_upper))
             data.append(AnnualRate)
-            print(AnnualRate)
+            
             return AnnualRate
-        def Payment_amount(index):
-            for i in index:
-                PaymentAmount.append(pmt(amount_lower, amount_upper))
+        def Payment_amount(num_years):
+            
+            x=num_years
+            PaymentAmount =np.round(np.random.randint(amount_lower,amount_upper-1, size=x)+abs(np.random.randn(1, x)),2)
+            #PaymentAmount=np.zeros((num_years,), dtype=int)
+            #PaymentAmount[0]=pv
+            
+            #for i in index:
+            #    PaymentAmount.append(pmt(amount_lower, amount_upper))
             data.append(PaymentAmount)
+            
             return PaymentAmount
         
         def Future_value(index):
             def futureval(AnnualRate,index,PaymentAmount, PresentValue):
-                return round(npf.fv(AnnualRate, index, PaymentAmount, PresentValue),2)
+               return round(npf.fv(AnnualRate, index, PaymentAmount, PresentValue),2)
 
                 
 
             for i in index:
                 if i ==0:
+                    pass
                     FutreValue.append(futureval(AnnualRate[i]/100,nper[i],PaymentAmount[i], PresentValue[i]))
                     
                 else:
+                    pass
                     FutreValue.append(futureval(AnnualRate[i]/100,nper[i],PaymentAmount[i], PresentValue[i]+PresentValue[0]))
                     
             data.append(FutreValue)
@@ -116,9 +133,9 @@ def simulate(trials):
         pmt(amount_lower, amount_upper)
         indexer(num_years)
         Nperiod(num_years)
-        present_value(index)
-        Annual_rate(index)
-        Payment_amount(index)
+        present_value(num_years)
+        Annual_rate(num_years)
+        Payment_amount(num_years)
         Future_value(index)
 
 
@@ -143,8 +160,8 @@ def simulate(trials):
         dataframe['index']=dataframe['index'].map('{:,.0f}'.format)
         dataframe['Year']=dataframe['Year'].map('{:,.0f}'.format)
 
-        dataframe['rate']=dataframe['rate'].map('{:.3f} %'.format)
-        dataframe['Payment Amount']=dataframe['Payment Amount'].map('$ {:,}'.format)
+        #dataframe['rate']=dataframe['rate'].map('{:.3f} %'.format)
+        #dataframe['Payment Amount']=dataframe['Payment Amount'].map('$ {:,}'.format)
         dataframe['Present Value']=dataframe['Present Value'].map('$ {:,}'.format)
 
         #print("pd.DataFrame(dataframe) \n", dataframe)
@@ -156,7 +173,7 @@ def simulate(trials):
         if trial==0:
             print("pd.DataFrame(dataframe) \n", dataframe)
 
-simulate(2000)
+simulate(6000)
 pd.set_option('display.float_format', '$ {:,}'.format)
 Grand_dataframe = pd.DataFrame(Grand_Future_Value)
 Grand_dataframe.columns = ["Trials"]
